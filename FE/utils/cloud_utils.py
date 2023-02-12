@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 
 class ReadWriteS3:
     """
-
+    This class is used to read/load data to s3 bucket
     """
     @classmethod
     def create_connection(cls):
@@ -39,7 +39,7 @@ class ReadWriteS3:
         """
         key = f"{env}/{path}/{filename}"
 
-        file_type = filename.split(".")[-1]
+        file_type = filename.split(".")[-1] # get the file extension from the filename
 
         if file_type == "csv":
             csv_obj = self.client.get_object(Bucket=bucket_name, Key=key)
@@ -49,6 +49,12 @@ class ReadWriteS3:
             df = pd.read_csv(StringIO(csv_string))
 
             return df
+
+        elif file_type == "xlsx":
+            pass
+
+        elif file_type == "feather":
+            pass
 
     def write_to_s3(self):
         pass
@@ -72,7 +78,6 @@ def save_data(df, database_file_name):
     # the file path
     table_name = db_file_name.split(".")[0]
     df.to_sql(table_name, engine, index=False, if_exists='replace')
-
 
 
 if __name__ == "__main__":
