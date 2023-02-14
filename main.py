@@ -14,6 +14,11 @@ from general_utils.utils import *
     help="what type of run you want to perform (FE or Model"
 )
 def run_process(is_fe):
+    """
+
+    :param is_fe:
+    :return:
+    """
     if is_fe:
         read = ReadWriteS3.create_connection()
         df = read.read_from_s3(filename="disaster_categories.csv")
