@@ -11,7 +11,7 @@ from general_utils.utils import *
     "is_fe",
     required=True,
     type=click.Choice(["baseline"], case_sensitive=False),
-    help="what type of run you want to perform (FE or Model"
+    help="what type of run you want to perform (FE or Model)"
 )
 def run_process(is_fe):
     """
