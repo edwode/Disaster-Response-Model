@@ -89,5 +89,4 @@ def save_data(df, database_file_name):
 if __name__ == "__main__":
     read = ReadWriteS3.create_connection()
     df = read.read_from_s3(filename="disaster_categories.csv")
-
     print(df.head())
