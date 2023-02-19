@@ -83,6 +83,9 @@ def save_data(df, database_file_name):
     df.to_sql(table_name, engine, index=False, if_exists='replace')
 
 
+# mongodb
+
+
 if __name__ == "__main__":
     read = ReadWriteS3.create_connection()
     df = read.read_from_s3(filename="disaster_categories.csv")

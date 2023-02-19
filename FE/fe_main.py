@@ -14,7 +14,19 @@ def main():
 
    # read the message csv from s3 and store as a dataframe
 
+    s3c = boto3.client("s3", aws_access_key_id=get_configuration("aws_access_key_id"),
+                     aws_secret_access_key=get_configuration("aws_secret_access_key"))
+
+    obj = s3c.get_object(Bucket=disaster_messages.csv, Key=KEY)
+    df = pd.read_csv(io.BytesIO(obj['Body'].read()), encoding='utf8')
+
     # read categories csv and store as a dataframe
+
+    s3c = boto3.client("s3", aws_access_key_id=get_configuration("aws_access_key_id"),
+                     aws_secret_access_key=get_configuration("aws_secret_access_key"))
+
+    obj = s3c.get_object(Bucket=disaster_categories.csv, Key=KEY)
+    df = pd.read_csv(io.BytesIO(obj['Body'].read()), encoding='utf8')
 
     df = messages_df.merge(categories_df, on='id')
     # read from the database and store as a dataframe
@@ -25,10 +37,10 @@ def main():
 
         print('Loading data...\n    MESSAGES: {}\n    CATEGORIES: {}'
               .format(messages_filepath, categories_filepath))
-        df = load_data(messages_filepath, categories_filepath)
+    df = load_data(messages_filepath, categories_filepath)
 
         print('Cleaning data...')
-        df = transformation.clean_data(df)
+       df = transformation.clean_data(df)
 
         # write a function to save data to s3
         print('Saving data...\n    DATABASE: {}'.format(database_filepath))
